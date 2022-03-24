@@ -1,16 +1,9 @@
-# my_app
+# Bienvenue dans le Dojo Flappy Bird en Flutter !
 
-A new Flutter project.
+Vous allez réaliser l'iconique jeu flappy bird en [Flutter](https://flutter.dev/?gclid=CjwKCAjw2P-KBhByEiwADBYWCtIOYB_OONZuVbEwDSWKLQL81hln3zfjbvAYf5WuIfq3p1m5Wi0fqxoCPFkQAvD_BwE&gclsrc=aw.ds) !
 
-## Getting Started
+![Screenshot](./docs/screenshot.png)
 
-This project is a starting point for a Flutter application.
+## Commencer
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Pour commencer ce dojo, suivez les instructions de ce [Trello](https://trello.com/b/of3BEzQf/mobile-dojo-flappy-bird-flutter)
