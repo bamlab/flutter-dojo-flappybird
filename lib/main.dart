@@ -11,12 +11,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const Scaffold(
+          backgroundColor: Colors.black,
+          body: MyHomePage(),
+        ));
   }
 }
 
@@ -24,13 +26,10 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Text(
-          "Bonjour le Dojo !",
-          style: TextStyle(fontSize: 24, color: Colors.white),
-        ),
+    return const Center(
+      child: Text(
+        "Bonjour le Dojo !",
+        style: TextStyle(fontSize: 24, color: Colors.white),
       ),
     );
   }
