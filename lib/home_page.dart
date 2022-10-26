@@ -8,6 +8,7 @@ import 'package:my_app/scores.dart';
 
 const _gravity = -4.9;
 const _velocity = 2.5;
+const _birdAlignment = -0.5;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -90,14 +91,31 @@ class _MyHomePageState extends State<HomePage> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height * 0.75 / 2;
 
+    final birdStartAlignment = _birdAlignment - (_birdSize / width) / 2;
+    final birdEndAlignment = _birdAlignment + (_birdSize / width) / 2;
+
     for (int pipeNumber = 0; pipeNumber < xPipeAlignment.length; pipeNumber++) {
-      if (xPipeAlignment[pipeNumber] - _pipeWidth / width <= -0.45 &&
-          xPipeAlignment[pipeNumber] + _pipeWidth / width >= -0.65 &&
-          (_birdY >= 1 - (_pipeHeights[pipeNumber][0]) / height ||
-              _birdY <= -1 + (_pipeHeights[pipeNumber][1]) / height)) {
+      final xPipeStartAlignment =
+          xPipeAlignment[pipeNumber] - (_pipeWidth / width) / 2;
+      final xPipeEndAlignment =
+          xPipeAlignment[pipeNumber] - (_pipeWidth / width) / 2;
+
+      final birdAndPipeXIntersects = xPipeStartAlignment <= birdEndAlignment &&
+          xPipeEndAlignment >= birdStartAlignment;
+
+      final birdHitTopPipe =
+          _birdY >= 1 - (_pipeHeights[pipeNumber][0]) / height;
+
+      final birdHitBottomPipe =
+          _birdY <= -1 + (_pipeHeights[pipeNumber][1]) / height;
+
+      final birdAndPipeYIntersects = birdHitTopPipe || birdHitBottomPipe;
+
+      if (birdAndPipeXIntersects && birdAndPipeYIntersects) {
         return true;
       }
     }
+
     return false;
   }
 
@@ -163,7 +181,7 @@ class _MyHomePageState extends State<HomePage> {
               child: Stack(
                 children: [
                   Container(
-                    alignment: Alignment(-0.5, _birdY),
+                    alignment: Alignment(_birdAlignment, _birdY),
                     child: Bird(birdSize: _birdSize),
                   ),
                   Pipe(
