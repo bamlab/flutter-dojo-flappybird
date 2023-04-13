@@ -59,12 +59,10 @@ class _MyHomePageState extends State<HomePage> {
         }
       });
 
-      _birdIsDead()
-          ? {
-              timer.cancel(),
-              _showGameOverDialog(),
-            }
-          : null;
+      if (_birdIsDead()) {
+        timer.cancel();
+        _showGameOverDialog();
+      }
 
       time += 0.01;
     });
