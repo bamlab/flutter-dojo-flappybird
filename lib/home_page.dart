@@ -6,8 +6,8 @@ import 'package:my_app/pipe.dart';
 import 'package:my_app/random_height.dart';
 import 'package:my_app/scores.dart';
 
-const _gravity = -4.9;
-const _velocity = 2.5;
+const _gravity = -4.3; //TODO check this
+const _velocity = 2.1;
 const _birdX = 0.25;
 
 class HomePage extends StatefulWidget {
@@ -27,8 +27,8 @@ class _MyHomePageState extends State<HomePage> {
   final _birdSize = 50.0;
 
   var _gameStarted = false;
-  var _birdY = 0.0;
-  var initialPos = 0.0;
+  var _birdY = 0.5;
+  var initialPos = 0.5;
   var time = 0.0;
   var xPipeAlignment = <double>[1.0, 2.2, 3.4];
   var score = 0;
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<HomePage> {
       height = _gravity * time * time + _velocity * time;
 
       setState(() {
-        _birdY = initialPos - height;
+        _birdY = initialPos + height;
       });
 
       setState(() {
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   bool _birdHitGroundOrTop() {
-    if (_birdY < -1 || _birdY > 1) {
+    if (_birdY < 0 || _birdY > 1) {
       return true;
     }
     return false;
@@ -119,10 +119,10 @@ class _MyHomePageState extends State<HomePage> {
 
   void restartGame() {
     setState(() {
-      _birdY = 0;
+      _birdY = 0.5;
       _gameStarted = false;
       time = 0;
-      initialPos = 0;
+      initialPos = 0.5;
       xPipeAlignment = [1.0, 2.2, 3.4];
       score = 0;
     });
@@ -171,7 +171,7 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   double birdYPosition(double gameHeight) {
-    return gameHeight * (1 - (_birdY + 1) / 2);
+    return gameHeight * _birdY;
   }
 
   @override
