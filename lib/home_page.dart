@@ -166,6 +166,14 @@ class _MyHomePageState extends State<HomePage> {
     });
   }
 
+  double birdXPosition(double screenWidth) {
+    return screenWidth * (_birdAlignment + 1) / 2;
+  }
+
+  double birdYPosition(double gameHeight) {
+    return gameHeight * (1 - (_birdY + 1) / 2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -173,62 +181,66 @@ class _MyHomePageState extends State<HomePage> {
       child: Column(
         children: [
           Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.blue[300],
-              child: Stack(
-                children: [
-                  Container(
-                    alignment: Alignment(_birdAlignment, _birdY),
-                    child: Bird(birdSize: _birdSize),
-                  ),
-                  Pipe(
-                    pipeHeight: _pipeHeights[0][0],
-                    pipeWidth: _pipeWidth,
-                    isBottomPipe: true,
-                    xPipeAlignment: xPipeAlignment[0],
-                  ),
-                  Pipe(
-                    pipeHeight: _pipeHeights[0][1],
-                    pipeWidth: _pipeWidth,
-                    xPipeAlignment: xPipeAlignment[0],
-                  ),
-                  Pipe(
-                    pipeHeight: _pipeHeights[1][0],
-                    pipeWidth: _pipeWidth,
-                    isBottomPipe: true,
-                    xPipeAlignment: xPipeAlignment[1],
-                  ),
-                  Pipe(
-                    pipeHeight: _pipeHeights[1][1],
-                    pipeWidth: _pipeWidth,
-                    xPipeAlignment: xPipeAlignment[1],
-                  ),
-                  Pipe(
-                    pipeHeight: _pipeHeights[2][0],
-                    pipeWidth: _pipeWidth,
-                    isBottomPipe: true,
-                    xPipeAlignment: xPipeAlignment[2],
-                  ),
-                  Pipe(
-                    pipeHeight: _pipeHeights[2][1],
-                    pipeWidth: _pipeWidth,
-                    xPipeAlignment: xPipeAlignment[2],
-                  ),
-                  Container(
-                    alignment: const Alignment(0, -0.4),
-                    child: Text(
-                      _gameStarted ? '' : 'T A P  T O  P L A Y',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
+              flex: 3,
+              child: LayoutBuilder(builder: (context, constraints) {
+                double width = constraints.maxWidth;
+                double height = constraints.maxHeight;
+                return Container(
+                  color: Colors.blue[300],
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: birdXPosition(width),
+                        bottom: birdYPosition(height),
+                        child: Bird(birdSize: _birdSize),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[0][0],
+                        pipeWidth: _pipeWidth,
+                        isBottomPipe: true,
+                        xPipeAlignment: xPipeAlignment[0],
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[0][1],
+                        pipeWidth: _pipeWidth,
+                        xPipeAlignment: xPipeAlignment[0],
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[1][0],
+                        pipeWidth: _pipeWidth,
+                        isBottomPipe: true,
+                        xPipeAlignment: xPipeAlignment[1],
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[1][1],
+                        pipeWidth: _pipeWidth,
+                        xPipeAlignment: xPipeAlignment[1],
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[2][0],
+                        pipeWidth: _pipeWidth,
+                        isBottomPipe: true,
+                        xPipeAlignment: xPipeAlignment[2],
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[2][1],
+                        pipeWidth: _pipeWidth,
+                        xPipeAlignment: xPipeAlignment[2],
+                      ),
+                      Container(
+                        alignment: const Alignment(0, -0.4),
+                        child: Text(
+                          _gameStarted ? '' : 'T A P  T O  P L A Y',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              })),
           Expanded(
             child: Container(
               color: Colors.brown,
