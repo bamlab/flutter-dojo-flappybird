@@ -8,7 +8,7 @@ import 'package:my_app/scores.dart';
 
 const _gravity = -4.9;
 const _velocity = 2.5;
-const _birdAlignment = -0.5;
+const _birdX = 0.25;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -89,8 +89,8 @@ class _MyHomePageState extends State<HomePage> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height * 0.75 / 2;
 
-    final birdStartAlignment = _birdAlignment - (_birdSize / width) / 2;
-    final birdEndAlignment = _birdAlignment + (_birdSize / width) / 2;
+    final birdStartAlignment = _birdX - (_birdSize / width) / 2;
+    final birdEndAlignment = _birdX + (_birdSize / width) / 2;
 
     for (int pipeNumber = 0; pipeNumber < xPipeAlignment.length; pipeNumber++) {
       final xPipeStartAlignment =
@@ -167,7 +167,7 @@ class _MyHomePageState extends State<HomePage> {
   }
 
   double birdXPosition(double screenWidth) {
-    return screenWidth * (_birdAlignment + 1) / 2;
+    return screenWidth * _birdX;
   }
 
   double birdYPosition(double gameHeight) {
