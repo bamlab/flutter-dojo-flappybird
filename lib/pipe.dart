@@ -6,18 +6,20 @@ class Pipe extends StatelessWidget {
     required this.pipeHeight,
     required this.pipeWidth,
     this.isBottomPipe = false,
-    required this.xPipeAlignment,
+    required this.xPipePosition,
   }) : super(key: key);
 
   final double pipeHeight;
   final double pipeWidth;
   final bool isBottomPipe;
-  final double xPipeAlignment;
+  final double xPipePosition;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment(xPipeAlignment, isBottomPipe ? 1 : -1),
+    return Positioned(
+      left: xPipePosition,
+      bottom: isBottomPipe ? 0 : null,
+      top: isBottomPipe ? null : 0,
       child: Container(
         color: Colors.green,
         height: pipeHeight,

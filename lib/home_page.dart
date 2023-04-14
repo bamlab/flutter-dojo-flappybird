@@ -7,7 +7,7 @@ import 'package:my_app/random_height.dart';
 import 'package:my_app/scores.dart';
 
 const _gravity = -4.3; //TODO check this
-const _velocity = 2.1;
+const _velocity = 2.0;
 const _birdX = 0.25;
 
 class HomePage extends StatefulWidget {
@@ -20,9 +20,9 @@ class HomePage extends StatefulWidget {
 class _MyHomePageState extends State<HomePage> {
   final _pipeWidth = 80.0;
   final _pipeHeights = <List<double>>[
-    [250, 150],
-    [100, 300],
-    [150, 250],
+    [0.4, 0.2],
+    [0.25, 0.35],
+    [0.15, 0.45],
   ];
   final _birdSize = 50.0;
 
@@ -30,7 +30,7 @@ class _MyHomePageState extends State<HomePage> {
   var _birdY = 0.5;
   var initialPos = 0.5;
   var time = 0.0;
-  var xPipeAlignment = <double>[1.0, 2.2, 3.4];
+  var xPipe = <double>[0.8, 1.4, 2.0];
   var score = 0;
   var scoreRecord = 0;
 
@@ -46,15 +46,14 @@ class _MyHomePageState extends State<HomePage> {
       });
 
       setState(() {
-        for (int i = 0; i < xPipeAlignment.length; i++) {
-          if (xPipeAlignment[i] < -2) {
-            xPipeAlignment[i] += 3.5;
-            _pipeHeights[i] =
-                getRandomPipeHeights(MediaQuery.of(context).size.height * 0.75);
+        for (int i = 0; i < xPipe.length; i++) {
+          if (xPipe[i] < -1) {
+            xPipe[i] += 1.8;
+            _pipeHeights[i] = getRandomPipeHeights();
             score++;
             _checkScoreRecord(score);
           } else {
-            xPipeAlignment[i] -= 0.01;
+            xPipe[i] -= 0.01;
           }
         }
       });
@@ -87,25 +86,22 @@ class _MyHomePageState extends State<HomePage> {
 
   bool _birdHitPipe() {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height * 0.75 / 2;
+    final height = MediaQuery.of(context).size.height * 0.75;
 
-    final birdStartAlignment = _birdX - (_birdSize / width) / 2;
-    final birdEndAlignment = _birdX + (_birdSize / width) / 2;
+    final birdStartPosition = _birdX * width;
+    final birdEndPosition = _birdX * width + _birdSize;
 
-    for (int pipeNumber = 0; pipeNumber < xPipeAlignment.length; pipeNumber++) {
-      final xPipeStartAlignment =
-          xPipeAlignment[pipeNumber] - (_pipeWidth / width) / 2;
-      final xPipeEndAlignment =
-          xPipeAlignment[pipeNumber] - (_pipeWidth / width) / 2;
+    for (int pipeNumber = 0; pipeNumber < xPipe.length; pipeNumber++) {
+      final xPipeStartPosition = xPipe[pipeNumber] * width;
+      final xPipeEndPosition = xPipe[pipeNumber] * width + _pipeWidth;
 
-      final birdAndPipeXIntersects = xPipeStartAlignment <= birdEndAlignment &&
-          xPipeEndAlignment >= birdStartAlignment;
+      final birdAndPipeXIntersects = xPipeStartPosition <= birdEndPosition &&
+          xPipeEndPosition >= birdStartPosition;
 
       final birdHitTopPipe =
-          _birdY >= 1 - (_pipeHeights[pipeNumber][0]) / height;
+          _birdY + (_birdSize / height) >= 1 - _pipeHeights[pipeNumber][1];
 
-      final birdHitBottomPipe =
-          _birdY <= -1 + (_pipeHeights[pipeNumber][1]) / height;
+      final birdHitBottomPipe = _birdY <= _pipeHeights[pipeNumber][0];
 
       final birdAndPipeYIntersects = birdHitTopPipe || birdHitBottomPipe;
 
@@ -121,9 +117,10 @@ class _MyHomePageState extends State<HomePage> {
     setState(() {
       _birdY = 0.5;
       _gameStarted = false;
+      _pipeHeights[0] = [0.4, 0.2];
       time = 0;
       initialPos = 0.5;
-      xPipeAlignment = [1.0, 2.2, 3.4];
+      xPipe = <double>[0.8, 1.4, 2.0];
       score = 0;
     });
   }
@@ -195,37 +192,37 @@ class _MyHomePageState extends State<HomePage> {
                         child: Bird(birdSize: _birdSize),
                       ),
                       Pipe(
-                        pipeHeight: _pipeHeights[0][0],
+                        pipeHeight: _pipeHeights[0][0] * height,
                         pipeWidth: _pipeWidth,
                         isBottomPipe: true,
-                        xPipeAlignment: xPipeAlignment[0],
+                        xPipePosition: xPipe[0] * width,
                       ),
                       Pipe(
-                        pipeHeight: _pipeHeights[0][1],
+                        pipeHeight: _pipeHeights[0][1] * height,
                         pipeWidth: _pipeWidth,
-                        xPipeAlignment: xPipeAlignment[0],
+                        xPipePosition: xPipe[0] * width,
                       ),
                       Pipe(
-                        pipeHeight: _pipeHeights[1][0],
-                        pipeWidth: _pipeWidth,
-                        isBottomPipe: true,
-                        xPipeAlignment: xPipeAlignment[1],
-                      ),
-                      Pipe(
-                        pipeHeight: _pipeHeights[1][1],
-                        pipeWidth: _pipeWidth,
-                        xPipeAlignment: xPipeAlignment[1],
-                      ),
-                      Pipe(
-                        pipeHeight: _pipeHeights[2][0],
+                        pipeHeight: _pipeHeights[1][0] * height,
                         pipeWidth: _pipeWidth,
                         isBottomPipe: true,
-                        xPipeAlignment: xPipeAlignment[2],
+                        xPipePosition: xPipe[1] * width,
                       ),
                       Pipe(
-                        pipeHeight: _pipeHeights[2][1],
+                        pipeHeight: _pipeHeights[1][1] * height,
                         pipeWidth: _pipeWidth,
-                        xPipeAlignment: xPipeAlignment[2],
+                        xPipePosition: xPipe[1] * width,
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[2][0] * height,
+                        pipeWidth: _pipeWidth,
+                        isBottomPipe: true,
+                        xPipePosition: xPipe[2] * width,
+                      ),
+                      Pipe(
+                        pipeHeight: _pipeHeights[2][1] * height,
+                        pipeWidth: _pipeWidth,
+                        xPipePosition: xPipe[2] * width,
                       ),
                       Container(
                         alignment: const Alignment(0, -0.4),
